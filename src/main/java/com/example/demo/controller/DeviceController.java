@@ -75,7 +75,7 @@ public class DeviceController extends BaseController {
     }
 
     @GetMapping("/getAllByUser")
-    @PreAuthorize("hasAnyRole('MANAGER')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     public ResponseEntity<?> getDeviceByUser(@RequestParam @NonNull Long userId) {
 
         return success(

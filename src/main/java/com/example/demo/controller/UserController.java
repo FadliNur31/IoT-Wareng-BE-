@@ -35,7 +35,7 @@ public class UserController extends BaseController {
         return success(userService.getUserByVillage(villageId));
     }
 
-    @PreAuthorize("hasAnyRole('MANAGER')")
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping("/getAllforManager")
     public ResponseEntity<?> getAllUserforManager(Authentication authentication) {
         UserPrincipal principal =
