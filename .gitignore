@@ -1,4 +1,6 @@
 HELP.md
+application.properties
+paho47410884737400-sslm780bcedalaasia-southeast1emqxslcom8883
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

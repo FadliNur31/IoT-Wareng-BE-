@@ -33,23 +33,30 @@ public class LocationController extends BaseController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @GetMapping("/getAllCity")
-    public ResponseEntity<?> getAllCity(@RequestParam String province) {
-        List<CityDTO> listCity = locationService.getAllCity(province);
+    @GetMapping("/getAllCityByProvince")
+    public ResponseEntity<?> getAllCityByProvince(@RequestParam String province) {
+        List<CityDTO> listCity = locationService.getAllCityByProvince(province);
         return success(listCity);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @GetMapping("/getAllDistrict")
-    public ResponseEntity<?> getAllDistrict(@RequestParam String city) {
-        List<DistrictDTO> listDistrict = locationService.getAllDistrict(city);
+    @GetMapping("/getAllDistrictByCity")
+    public ResponseEntity<?> getAllDistrictByCity(@RequestParam String city) {
+        List<DistrictDTO> listDistrict = locationService.getAllDistrictByCity(city);
         return success(listDistrict);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/getAllVillageByDistrict")
+    public ResponseEntity<?> getAllVillageByDistrict(@RequestParam String district) {
+        List<VillageDTO> listVillage = locationService.getAllVillageByDistrict(district);
+        return success(listVillage);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/getAllVillage")
-    public ResponseEntity<?> getAllVillage(@RequestParam String district) {
-        List<VillageDTO> listVillage = locationService.getAllVillage(district);
+    public ResponseEntity<?> getAllVillage() {
+        List<VillageDTO> listVillage = locationService.getAllVillage();
         return success(listVillage);
     }
 

@@ -40,7 +40,7 @@ public class LocationService {
                 .toList();
     }
 
-    public List<CityDTO> getAllCity(String provinceName) {
+    public List<CityDTO> getAllCityByProvince(String provinceName) {
         Province province = provinceRepo.findByProvinceName(provinceName);
         if (province == null) {
             throw new ResourceNotFound("Province not found");
@@ -56,7 +56,7 @@ public class LocationService {
                 .toList();
     }
 
-    public List<DistrictDTO> getAllDistrict(String cityName) {
+    public List<DistrictDTO> getAllDistrictByCity(String cityName) {
         City city = cityRepo.findByCityName(cityName);
         if (city == null) {
             throw new ResourceNotFound("City not found");
@@ -72,7 +72,7 @@ public class LocationService {
                 .toList();
     }
 
-    public List<VillageDTO> getAllVillage(String districtName) {
+    public List<VillageDTO> getAllVillageByDistrict(String districtName) {
         District district = districtRepo.findByDistrictName(districtName);
         if (district == null) {
             throw new ResourceNotFound("District not found");
@@ -84,6 +84,18 @@ public class LocationService {
                         v.getVillageId(),
                         v.getVillageName(),
                         district.getDistrictId()
+                ))
+                .toList();
+    }
+
+    public List<VillageDTO> getAllVillage() {
+
+        return villageRepo.findAll()
+                .stream()
+                .map(v -> new VillageDTO(
+                        v.getVillageId(),
+                        v.getVillageName(),
+                        v.getDistrict().getDistrictId()
                 ))
                 .toList();
     }
