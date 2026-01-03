@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
 
+import com.example.demo.dto.DeviceSensorDTO;
+import com.example.demo.dto.SensorPayload;
+import com.example.demo.dto.VillageDTO;
 import com.example.demo.entity.Device;
 import com.example.demo.entity.DeviceSensor;
 import com.example.demo.enums.sensorType;
@@ -19,10 +22,14 @@ public class DeviceSensorService {
     private DeviceRepo deviceRepo;
     private DeviceSensorRepo deviceSensorRepo;
 
-    public List<DeviceSensor> getDeviceSensorByDeviceId(UUID deviceId) {
+    public List<DeviceSensorDTO> getDeviceSensorByDeviceId(UUID deviceId) {
         Device dis = deviceRepo.findById(deviceId).orElseThrow(() -> new ResourceNotFound("Device not found"));
 
-        return deviceSensorRepo.findByDevice(dis);
+        return deviceSensorRepo.findByDevice(dis).stream()
+                .map(v -> new DeviceSensorDTO(
+                        v.getDeviceSensorId(),
+                        v.getSensorType()
+                )).toList();
     }
 
     public DeviceSensor getOrCreateDeviceSensor(Device device, sensorType sensorType) {

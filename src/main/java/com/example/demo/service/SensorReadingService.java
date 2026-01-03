@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.SensorReadingDTO;
 import com.example.demo.entity.Device;
 import com.example.demo.entity.DeviceSensor;
 import com.example.demo.entity.SensorReading;
@@ -23,15 +24,30 @@ public class SensorReadingService {
     private DeviceSensorRepo deviceSensorRepo;
 
 
-    public List<SensorReading> findByDeviceSensor(UUID sensorId){
+    public List<SensorReadingDTO> findByDeviceSensor(UUID sensorId){
         DeviceSensor sensor = deviceSensorRepo.findById(sensorId)
                 .orElseThrow(() -> new ResourceNotFound("Device not found"));
 
-        return sensorReadingRepo.findByDeviceSensor(sensor);
+        String location = sensor.getDevice().getUser().getVillage().getVillageName() + ", " +
+                sensor.getDevice().getUser().getVillage().getDistrict().getDistrictName() + ", " +
+                sensor.getDevice().getUser().getVillage().getDistrict().getCity().getCityName() + ", " +
+                sensor.getDevice().getUser().getVillage().getDistrict().getCity().getProvince().getProvinceName();
+
+        return sensorReadingRepo.findByDeviceSensor(sensor)
+                .stream()
+                .map(v -> new SensorReadingDTO(
+                        v.getSensorReadingId(),
+                        v.getValue(),
+                        v.getDeviceSensor().getDeviceSensorId(),
+                        location,
+                        v.getDeviceSensor().getSensorType(),
+                        v.getCreatedAt()
+                )).toList();
+
 
     }
 
-    public SensorReading createReading(UUID deviceId, sensorType sensorType, Double value) {
+    public void createReading(UUID deviceId, sensorType sensorType, Double value) {
 
         Device device = deviceRepo.findById(deviceId)
                 .orElseThrow(() -> new ResourceNotFound("Device not found"));
@@ -42,8 +58,6 @@ public class SensorReadingService {
         SensorReading reading = new SensorReading();
         reading.setDeviceSensor(deviceSensor);
         reading.setValue(value);
-
-        return sensorReadingRepo.save(reading);
     }
 
 }
