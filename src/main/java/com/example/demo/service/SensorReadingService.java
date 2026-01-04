@@ -58,6 +58,7 @@ public class SensorReadingService {
         SensorReading reading = new SensorReading();
         reading.setDeviceSensor(deviceSensor);
         reading.setValue(value);
+        sensorReadingRepo.save(reading);
     }
 
 }
