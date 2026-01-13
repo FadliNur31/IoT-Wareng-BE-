@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.dto.DeviceDTO;
+import com.example.demo.dto.DeviceStats;
 import com.example.demo.entity.Device;
 import com.example.demo.entity.UserPrincipal;
 import com.example.demo.service.DeviceService;
@@ -13,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -82,5 +85,20 @@ public class DeviceController extends BaseController {
                 deviceService.getDevicesByUserId(userId)
         );
     }
+
+    @GetMapping("/readings")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','USER')")
+    public ResponseEntity<?> getDeviceReadings(@RequestParam @NonNull UUID deviceId) {
+       return success(deviceService.getDeviceReadings(deviceId));
+    }
+
+    @GetMapping("/stats")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','USER')")
+    public ResponseEntity<?> getStats() {
+        return success(deviceService.getDeviceStats());
+    }
+
+
+
 
 }
