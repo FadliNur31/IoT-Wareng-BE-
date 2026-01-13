@@ -1,7 +1,6 @@
 package com.example.demo.service;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepo;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +17,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
-
 
     public User signup(User input) {
         input.setPassword(passwordEncoder.encode(input.getPassword()));
